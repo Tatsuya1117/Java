@@ -1,0 +1,127 @@
+2021年12月27日(月)作成
+
+━━━━━━━━━━━━━━━━━━━━
+デザインルールについて
+━━━━━━━━━━━━━━━━━━━━
+
+■インデントはTabキーを禁止。半角スペース * 2 とする。
+
+■CSSはBEMを基本とする
+  参考
+  https://en.bem.info/
+  BEMとは？
+  Block
+  Element
+  Modifier
+  それぞれの頭文字を取った、「コンポーネントベースでCSSを書く方法論、概念」である。
+
+  コンポーネントとは、モジュール、パーツ、部品などと呼ぶこともある。
+
+  機能性を持ったまま、それ単体で成り立つ最小要素とも言える。
+  
+■命名規則
+  ブロック(エレメント)はの命名規則はアッパーキャメルケース(upper camel case)とする。
+  
+  【例】
+  GlobalPrimaryNav__MenuItem {...}
+  (Block)           (Element)
+
+  単語の最初の文字を大文字にすること
+
+  Modifierを含む場合は、以下の通り
+
+  GlobalPrimaryNav__MenuItem--active {...}
+
+■SMACSS(スマックス)
+  BEMを入れる箱を作ること。予めHTML(Block)を入れる箱を設定する。
+  命名規則は、【Block名 + area】
+  【例】
+  GlobalPrimaryNav__area
+
+  【メリット】
+  各要素がコントロールしやすくなる。
+  例えば、positionなどが意図しない場所に飛び出さなくなる。
+  
+  【デメリット】
+  HTMLが一層外側に増えるため、複雑化する。
+  また、100ページ以上の大規模サイト、システムの場合かなり手間が増える。
+
+■Blockとは
+  理論的に、または物理的に独立した部品である。
+
+■Elementとは
+  Blockの中にあるあらゆる要素はElementであり、どこか別のBlockでは使うことができない、NGとする。
+
+  BlockとElementを明確に切り分けるルールとして「__」アンダースコアを二つ並べる。
+  名前が長くなっても大丈夫。
+  結果的に、後から描き直すときに一発で見つけやすいという圧倒的なメリットがある。
+
+■Modifierとは
+  直訳すると「変える」、「変化」など。なので、BlockやElementを変えるやつである。
+  例えば、お知らせ欄があったとする。
+  20件メッセージが来たら【20件の新着メッセージがあります。】は青で表示される。
+  【送信しました】は緑色。
+  【エラー】は赤。
+  といった具合に、一つのお知らせ欄に状態に応じて様々な変化を表現したい時などはModifierの出番。
+
+■ユーティリティスタイル
+  /* サンプルCSS */
+  .align-left {text-align: left;}
+  .align-center {text-align: center;}
+  .align-right {text-align: right;}
+  .margin-bottom
+  など、何度も登場し、一定の基準のもと設定されているプロパティを予め指定すること。
+
+■余白のデザイン(余白のユーティリティスタイル)
+  /* 例 */
+  margin-bottom: 16px; // class名を【mb--S】
+  margin-bottom: 32px; // class名を【mb--M】
+  margin-bottom: 48px; // class名を【mb--L】とか
+
+  共通で、よく利用される余白デザインはチーム内である程度共通化しておくことでデザインの統一が図れる。
+
+■margin-topは使用しない
+  marginの相殺と呼ばれる現象が発生し、予期しないレイアウト崩れが発生するため使用しない。
+  代わりにpadding-topを使用してください。
+
+■コンポーネントの例
+  
+  <!-- HTML -->
+  <div class="B-ContactColumn__label">お問合せ： b-contact-column</div>
+  <section class="B-ContactColumn">
+    <h2 class="B-ContactColumn__title">お問合せ</h2>
+    <p class="B-ContactColumn__p">この製品についてのお問合せは、……</p>
+    <ul class="B-ContactColumn__nav">
+      <li><a href="#">お問合せページへ</a></li>
+    </ul>
+  </section>
+  <div class="B-MediaColumn__label">画像 + テキスト：B-MediaColumn</div>
+  <div class="B-MediaColumn">
+    <div class="B-MediaColumn__text">
+      <p>画像とテキストを組み合わせたBlockです。</p>
+      <p>画像とテキストを組み合わせたBlockです。</p>
+      <p>画像とテキストを組み合わせたBlockです。</p>
+    </div>
+    <div class="B-MediaColumn__media">
+      <img src="example/path/img.png" alt="">
+    </div>
+  </div>
+  <div class="B-RequestDocNav__label">資料請求ナビ： B-RequestDocNav</div>
+  <div class="B-RequestDocNav">
+    <p class="B-RequestDocNav__text">資料請求はこちらのページから……</p>
+    <ul class="">
+      <li><a href="#">資料請求</a></li>
+    <ul>
+  </div>
+
+  /* CSS */
+  .B-ContactColumn__label {
+      background: orange;
+  }
+  .B-MediaColumn__label {
+      background: green;
+  }
+  .B-RequestDocNav__label {
+      background: pink;
+  }
+  
