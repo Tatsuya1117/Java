@@ -1,0 +1,668 @@
+Git 簡単コマンドガイド (2022)
+
+git init (初めてgitを使う前に必要なgitファイルを任意のディレクトリにインストールするコマンド)
+
+git status
+
+git add <ファイル名>
+
+git diff (自分が変更しようとしているファイルと、その他の変更がないか確認する)
+
+git add .
+
+git diff --staged (ステージ後の変更点の確認と、その他の変更がないか確認する)
+
+git commit -v (変更箇所の確認とコミットメッセージを書く) 
+
+━━━━━━━━━━━━━━━━━━━━
+変更履歴を確認する
+━━━━━━━━━━━━━━━━━━━━
+
+git log (今までの変更全部が出ちゃうので非推奨)
+
+git log --oneline (1行で表示する)
+
+git log -p index.html (指定したファイルの変更さ分だけ表示する)
+
+git log -n <コミット数を指定> (表示するコミット数を指定する)
+
+git log --oneline --decorate (なんなら全部見る)
+
+━━━━━━━━━━━━━━━━━━━━
+ファイルの削除
+━━━━━━━━━━━━━━━━━━━━
+
+#ファイルごと削除
+git rm <ファイル名>
+
+#ディレクトリごと削除
+git rm -r <ディレクトリ名>
+
+#自分のエディタにはファイルを残し、gitの記録から消したい場合には以下のコマンド
+
+git rm --cached <ファイル名>
+
+#例えば、誤ってパスワードなどの重要情報をgitに上げてしまった場合などが該当(よくある)
+
+※完全に「もういらない！」場合に実施するようにして、それ以外の場合にはダブルチェック実施後に削除しましょう。
+
+
+
+#誤って削除したファイルを元に戻したい場合
+
+git reset HEAD <ファイル名>
+
+git checkout <元に戻したファイル名>
+
+※因みに、急に出てきた【HEAD】ですが、現在自分がどのブランチに存在しているのかを識別するタグみたいなものです。
+
+━━━━━━━━━━━━━━━━━━━━
+ファイル名の変更(ファイルの移動)
+━━━━━━━━━━━━━━━━━━━━
+
+git mv <古いファイル名> <新しいファイル名>
+
+#ディレクトリなど、格納場所を移動させたい場合にはcp (コピーコマンドでもOK)
+
+
+━━━━━━━━━━━━━━━━━━━━
+pushする時
+━━━━━━━━━━━━━━━━━━━━
+
+※GitHub にローカルで変更・修正・追加・削除などを実施した内容を記録する時に使用する。git pushすることで、各自ローカルで開発していた内容を共有することが可能になる。
+
+※心配なら念の為、現在【どこに向かってpush】しようとしているか確認しても良い。
+
+git remote
+
+または、
+
+git remote -v
+
+または、
+
+git remote show <リモート名>
+
+で、これからpushする場所を確認することが可能。
+
+git remote add origin <リモートリポジトリのURL>で、リモートリポジトリを登録
+
+【例】
+git remote add origin git@github.com:ykdsweb/workflow.git
+
+※一度、【origin】として登録しておくと、今後URLを入力しなくても良くなるので、このタイミングで実施するのが良い。
+
+git push <リモート名> <ブランチ名>
+
+※ -u を初回のpushの時につけておくと、これ以降 git push だけでpushできるようになるので -u オプションをつけましょう。
+
+git push -u origin main
+
+↓
+
+以下でも同じことを行なっている。
+
+※始めてpushする場合には、以下のコマンドを実施する
+
+git push --set-upstream origin <ブランチ名>
+
+【例】
+git push --set-upstream origin dev
+
+また、2022年現在pushする際には、sshか、アクセストークンの登録のどちらかが必須となるため、sshの対応を実施して下さい。
+
+━━━━━━━━━━━━━━━━━━━━
+他人のリポジトリからpullしてしまった場合
+━━━━━━━━━━━━━━━━━━━━
+
+もしgithub上に参考にしたいリポジトリがあったとして、その場合pullで持ってくることは可能だがお作法的にはforkするのが礼儀。
+
+もしpullした場合、originが前任者のoriginになっているので、上記の場合以下のコマンドでurlを自分のurlに書き換えることが可能。
+
+git remote set-url origin <new url>
+
+
+━━━━━━━━━━━━━━━━━━━━
+秘密鍵・公開鍵(ssh接続)の作成
+━━━━━━━━━━━━━━━━━━━━
+
+【作成手順】
+https://qiita.com/shizuma/items/2b2f873a0034839e47ce
+
+※もしssh接続が難しければ以下のアクセストークンで代用可能
+
+自分のターミナルから~/.sshフォルダを作成し、秘密鍵・公開鍵を作成し、GitHubに公開鍵を登録して、疎通確認を実施する。
+
+その後、【ssh】のURLから接続する。
+
+━━━━━━━━━━━━━━━━━━━━
+git hub アクセストークン(認証) 90日間有効
+━━━━━━━━━━━━━━━━━━━━
+
+【Admin】(2022/01/09)
+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
+
+※pushする際に「この人は本当に正しいアカウントの持ち主なのか？」と言うことを認証する。パスワードの役割を持つ。
+
+①自分のGitHubのアカウントにログインし、右上プロフィール欄の中から【Settings】を選択し、次の画面の左列から【Developer settings】を選択する。
+
+②Parsonal access tokensを選択する。
+
+③Generate new tokenを選択する。
+
+④Noteにトークン発行者の役割 or 適切な名前を入力する。
+
+⑤トークンの有効期限を選択する
+
+⑥scopesにて、全てのチェック欄にチェックを実施し、権限をコントロールする。余程のことがない限り、権限の変更はしなくても良い。
+
+⑦トークンをどこかにメモして保存しておく。
+
+※もしなくしてしまった場合には、新たに発行すれば良い。
+
+GitHub上で、pushしたい新規のリポジトリをprivateで作成する。
+
+リポジトリの作成は簡単なので省略。
+
+リポジトリが作成できたら、【push an existing repository from the command line】と書かれている部分をコピーして持ってくる。
+
+git remote add origin https://github.com/Tatsuya1117/next.js_tutorial.git
+
+
+【もしlocalのリポジトリがmaster】だったら、mainに変更した方が良いので以下のコマンドを実施
+git branch -M main
+
+git push -u origin main (初回のみ。次回以降、origin masterをpushする時に「git push」のみでpushできるようになるので楽)
+
+もし以下のエラーが出て、push出来なかった場合には別途User情報の登録を改めて実施する
+
+【エラー】
+remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.
+remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information.
+fatal: Authentication failed for 'https://github.com/Tatsuya1117/next.js_tutorial.git/'
+
+【対処法】( https://zenn.dev/yuri0427/articles/9587ae6a578ee9 )
+
+①git config --list
+
+②git config --global user.name <自分のGitHubのユーザー名>
+
+③git config --global user.email <自分のGitHubに登録したメールアドレス>
+
+④もう一度、【git push -u origin main】を実施。
+
+⑤Username for 'https://github.com': では自分のユーザー名を入力
+
+⑥Password for 'https://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@github.com': では、先に発行していたアクセストークンを入力する。
+
+⑦GitHubにアクセスし、リポジトリを確認し、今回pushした内容がアップされていれば成功
+
+
+
+━━━━━━━━━━━━━━━━━━━━
+コマンドにエイリアス(略称)をつけるやり方
+━━━━━━━━━━━━━━━━━━━━
+
+※エラーが出てしまう場合には飛ばしてOK
+
+※git config —global alias.<略称> <コマンドの正式名称>とすることで、長いコマンドを省略して、簡単に入力することができる。これはチーム内でエイリアスを予め定義しておくなどして、プロジェクトごとに決め直した方がいい場合が多い。【--global】を指定することで、そのパソコン上のgitの設定全部を変更することができる。
+
+git config --global alias.ci commit
+
+git config --global alias.st status
+
+git config --global alias.br branch
+
+git config --global alias.co checkout
+
+※上記をコピーして使用する場合、「--」が「-」ハイフン一文字に認識される場合があるので注意。本当はハイフンを二つ入力する必要がある。( 解決方法は、システム環境設定＞キーボード「ユーザー辞書」タブの「スマート引用符とスマートダッシュを使用」のチェックを外し、アプリを再起動)
+
+━━━━━━━━━━━━━━━━━━━━
+Gitでバージョン管理したくない(gitignore)ファイルの制限
+━━━━━━━━━━━━━━━━━━━━
+
+※最初にリポジトリを作成する際に【Node】で.gitignoreを作成しておくとある程度いい感じになります。
+
+※パスワードなど
+※チーム開発で自動生成されるファイルやキャッシュなどの履歴
+※.gitignoreにファイルを指定することで実現可能
+
+【git ignoreの書き方のお作法】
+#指定したファイルを除外する場合(大体これ)
+index.html
+
+#ルートディレクトリを指定する場合
+/root.html
+
+#ディレクトリ以下を除外する場合
+dir /
+
+# /以外の文字列にマッチ「*」
+/*/*.css
+
+
+━━━━━━━━━━━━━━━━━━━━
+変更を元に戻すやり方
+━━━━━━━━━━━━━━━━━━━━
+
+「--」(ハイフンハイフンというオプションをつけているのは、ブランチ名とファイル名が被った場合に、どちらが正しいのかGitがわからなくなることを避けるため)
+
+■ファイルへの変更を取り消す
+
+git checkout -- <ファイル名>
+
+git checkout -- <ディレクトリ名>
+
+#変更全てを取り消す
+git checkout -- .
+
+
+
+
+■ステージング(git add )を取り消す
+
+※ローカルファイル自体の変更は取り消されない。
+
+※もし、Gitもローカルファイル(エディタ)の変更も両方を取り消したい場合には、【git reset HEAD 】を実施した後、【git checkout】コマンドを実施しなければならない。
+
+※HEADとは、今自分が作業中のブランチの最新のコミット履歴のことを指している。
+
+git reset HEAD <ファイル名>
+
+git reset HEAD <ディレクトリ名>
+
+#ステージングした全ての変更を取り消す場合(ステージングを取り消す)
+git reset HEAD .
+
+
+
+
+■直前のコミット(commit直後)を修正したい時
+
+git commit --amend
+
+※一度pushしてしまった後だとダメ。commitしたけど「あれ？あ、あれ忘れてた……」という場合に実行可能です。一回pushしてしまったら、もう一回commitを実施するしかない。
+
+#変更を確認するために以下のコマンドを実施
+git log -p -n 1
+
+きちんとpushできるかも実行する
+
+git push origin main
+
+━━━━━━━━━━━━━━━━━━━━
+急に出たエラー
+━━━━━━━━━━━━━━━━━━━━
+
+【実施したコマンド】
+git push origin master
+
+【エラー】
+error: src refspec master does not match any
+error: failed to push some refs to 'https://github.com/Tatsuya1117/next.js_tutorial.git'
+
+【解決方法】
+git push origin main
+
+git branch
+
+を実施し、現在どこにいるのかを確認する
+
+* main
+
+と出たら、名前が【master】ではなく【main】にいるよということになる。
+
+【原因】
+エラーが出てしまうのは、レポジトリ名が原因。
+以前は「master」ブランチが自動で作成されていたが、2020/10以降、新規にレポジトリを作成すると、「main」ブランチが作成される。よって、今まで通り、git push origin masterでpushしようとすると、レポジトリ名が異なるため、エラーになってしまう。
+ここで、気をつけていただきたいのは、2020/10以前、これまでに作成したレポジトリは、変更していないと「master」ブランチであるということ。
+よって、レポジトリによって、git push origin master`なのか、`git push origin mainかを気をつける必要があります。
+
+
+━━━━━━━━━━━━━━━━━━━━
+リモート(GitHub)を表示する
+━━━━━━━━━━━━━━━━━━━━
+git remote
+
+git remote -v
+
+
+
+━━━━━━━━━━━━━━━━━━━━
+リモートリポジトリを追加する方法
+━━━━━━━━━━━━━━━━━━━━
+【解説】
+pushでもうやってるけど、仕組みを知ろう。複数のチームでそれぞれリポジトリを持っている場合には、必要な作業。
+
+※現在作業してるmainリポジトリを練習用に切り離したりするときなどに有効。
+
+※また、心配性の人であれば作業履歴をbkとして別のリポジトリに残したい場合なども有効。但し、add, commit, pushする作業が単純に2倍になるので、同時並行作業には適さない。
+
+git remote add <リモート名> <リモートURL>
+
+【例】
+git remote add example https://github.com/user/repo.git
+
+exampleというショートカットでurlのリモートリポジトリを登録するということ。
+
+
+━━━━━━━━━━━━━━━━━━━━
+リモート(GitHub)から情報を取ってくる(fetch編)
+━━━━━━━━━━━━━━━━━━━━
+※pullすればいいから、あんまり使わないかも。
+
+git fetch <リモート名>となる。
+
+git fetch origin
+
+※ローカルリポジトリ(ローカルリポジトリ)に情報を引っ張ってくるだけで、手元のエディタには反映されないやり方。
+
+※もし手元のエディタにもリモート(GitHub)の情報を取ってきたい時には【git merge】する必要がある。
+
+fetchしたら、どこに情報が降りてきているのかよくわからんよね。
+
+確認するために、【git branch -a】を実施する。
+
+git branch -a
+
+すると、、、
+
+* main
+  remotes/bk/main
+  remotes/origin/main
+
+と表示される。
+
+git checkout remotes/origin/main
+
+と入力して確認する。何をしているかというと、【remotes/origin/main】にワークツリー(エディタ)の情報を切り替える。ということをやっている。
+
+元のワークツリー(エディタ)の環境に戻るために
+
+git checkout main
+
+を叩いて戻る。
+
+最後にmergeして終了。
+
+git merge origin/main
+
+━━━━━━━━━━━━━━━━━━━━
+リモートから情報を取ってくる(pull編)
+━━━━━━━━━━━━━━━━━━━━
+リモート(GitHub)から情報を取得してきて、マージまでを一回で実施したい時に行う操作。pullは、必ず「自分が今いるリポジトリに引っ張ってくる」ということを忘れずに。
+
+git pull <リモート名> <ブランチ名>
+(git pull origin main)
+
+上記コマンドは以下のように省略してもOK
+git pull
+
+実は、git fetch origin main + git merge origin/main と同じことを一回でやっている。
+
+git pull origin main　
+
+を実施して、lsでディレクトリを確認し、cat <ecample.file>でファイルの中身を展開する。
+
+変更が確認できる。
+
+━━━━━━━━━━━━━━━━━━━━
+他人のリポジトリからpullしてしまった場合
+━━━━━━━━━━━━━━━━━━━━
+
+もしgithub上に参考にしたいリポジトリがあったとして、その場合pullで持ってくることは可能だがお作法的にはforkするのが礼儀。
+
+もしpullした場合、originが前任者のoriginになっているので、上記の場合以下のコマンドでurlを自分のurlに書き換えることが可能。
+
+git remote set-url origin <new url>
+
+━━━━━━━━━━━━━━━━━━━━
+「fetchとpullの違い」(フェッチとプルを使い分けよう)
+━━━━━━━━━━━━━━━━━━━━
+
+gitに慣れていないうちは、fetchを使うべき
+
+git fetch 
+
+↓
+
+git merge
+
+ の流れを辿った方が安全なので、pullはpullの仕組みがよく理解できてから実施するようにしたい。
+
+
+
+━━━━━━━━━━━━━━━━━━━━
+リモート(GitHub)の詳細情報を表示する
+━━━━━━━━━━━━━━━━━━━━
+
+git remote show <リモート名> と叩く
+
+【例】
+git remote show origin
+
+とすることで、git remote よりも詳しくリモートの情報を確認することが可能になる。FetchとPushのURL、リモートブランチ、git pull の挙動、git pushの挙動など
+
+例えば、実行すると以下のような情報を確認することが可能
+
+* remote origin
+  Fetch URL: https://github.com/Tatsuya1117/next.js_tutorial.git
+  Push  URL: https://github.com/Tatsuya1117/next.js_tutorial.git
+  HEAD branch: main
+  Remote branch:
+    main tracked
+  Local ref configured for 'git push':
+    main pushes to main (up to date)
+
+━━━━━━━━━━━━━━━━━━━━
+リモート名の変更
+━━━━━━━━━━━━━━━━━━━━
+
+git remote rename <今のリモート名> <新しいリモート名>
+
+【例】
+git remote rename tutorial new_tutorial
+
+
+
+━━━━━━━━━━━━━━━━━━━━
+リモートの削除
+━━━━━━━━━━━━━━━━━━━━
+
+git remote rm <削除対象のリモート名>
+
+【例】
+git remote rm new_tutorial
+
+※完全に「もういらない！」場合に実施するようにして、それ以外の場合にはダブルチェック実施後に削除しましょう。
+
+━━━━━━━━━━━━━━━━━━━━
+ブランチを作成する(自分の作業用のブランチを切る)
+━━━━━━━━━━━━━━━━━━━━
+※並行して複数機能を開発するための仕組みのこと
+
+※他のチームメンバーの開発結果が、自分の開発に影響を及ぼさないというメリットがある。
+
+※コミットの名前はハッシュ値でできている。(40文字の英数字)
+
+ブランチとは、コミットを指し示したポインタである。
+
+git branch <ブランチ名>と入力する。
+
+【例】
+git branch feature
+
+※ブランチを作るだけで、切り替えは行われないので注意
+
+確認のため
+
+git branch
+
+で現在存在するブランチを表示される。
+
+git branch -a
+
+で、リモートを含む全てのブランチを確認することが可能
+
+もし、それぞれのブランチがどのコミットを見ているかを確認するには、
+
+git log --oneline --decorate
+
+【結果】
+fec32e2 (HEAD -> main, origin/main, feature) Update home.html
+f34da7f git fetch origin の練習です。
+f4d0ab2 git commit --amendしたい
+456243c .gitignoreファイルを追加
+7da319f git diffを追記
+d84a442 git statusを追加しました
+fcb0925 initial commit
+481fa95 Initial commit from Create Next App
+
+
+
+━━━━━━━━━━━━━━━━━━━━
+ブランチを切り替える
+━━━━━━━━━━━━━━━━━━━━
+
+git checkout <既存のブランチ名>
+
+【例】
+git checkout feature
+
+※既存のブランチにしか切り替えられない点に注意。もし、新しいブランチの作成と切り替えを同時に行いたい場合には、
+
+git checkout -b <新しいブランチ名>とすることで作成可能になる。
+
+【例】
+git checkout -b feature_00
+
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━
+変更をマージする
+━━━━━━━━━━━━━━━━━━━━
+
+※複数人で開発した結果を取り込む(統合)コマンド
+
+※現在自分が作業中(* があるところ)のブランチに対して、git merge <ブランチ名> すると、他の人の変更を取り込むことができる。pullに似ている。
+
+git merge <取り込みたいブランチ名>
+
+または、
+
+git merge <リモート名/ブランチ名>
+
+【例】
+git merge origin/main
+
+
+■実は、マージは3種類ある
+
+①Fast Foward (早送りになるマージ)
+
+②Auto Merge (基本的なマージ)
+
+③コンフリクト (変更点の衝突)
+
+
+━━━━━━━━━━━━━━━━━━━━
+コンフリクトの解決
+━━━━━━━━━━━━━━━━━━━━
+
+※別々の開発者が、同じファイルを編集した時に発生する現象
+
+例えば、コンフリクトすると以下のようになる。
+
+【ターミナル】
+Auto-merging test.html
+CONFLICT (content): Merge conflict in test.html
+Automatic merge failed; fix conflicts and then commit the result.
+
+次に、git statusを実施する。
+
+both modified:   test.html
+
+と表示される。この【both】が2つ以上のファイルで……という意味になる。
+
+エディタを開いて、具体的にコンフリクトを確認する。
+
+エディタの中に、以下のような記述が見つかる。
+
+<<<<<<< HEAD
+    <p>git merge</p>
+    <p>コンフリクト</p>
+=======
+    <p>conflict</p>
+>>>>>>> feature
+
+みたいにコンフリクトが発生します。
+
+解消するためには、最終的な結果を記載すれば良い。
+
+<p>git merge</p>
+<p>コンフリクト</p>
+<p>conflict</p>
+
+これでOK
+
+再度、
+
+git add .
+
+git commit -v
+
+で保存し、
+
+git status
+
+を見ると、解決している。
+
+━━━━━━━━━━━━━━━━━━━━
+コンフリクトが起きないような運用ルール
+━━━━━━━━━━━━━━━━━━━━
+
+・同じファイルを編集しない。(チケットなどに編集するファイル名などをしっかり記載し、「今誰がなんのファイルを編集しているのか？」を共有しておくこと。)
+
+・pullやmergeをする前に、変更中の状態を無くしておく。(最小単位でcommitや、stashを行う。)
+
+・pull をする時には、pullしてきたいブランチに移動してから実施すること。
+
+git checkout <作業ブランチ>
+
+git branch
+
+git pull <今いるブランチに統合したいブランチ名>
+
+
+━━━━━━━━━━━━━━━━━━━━
+ブランチ名を変更する(自分が作業しているブランチの名前)
+━━━━━━━━━━━━━━━━━━━━
+
+git branch -m <新ブランチ名>
+
+git branch -m new_branch
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━
+ブランチを削除する
+━━━━━━━━━━━━━━━━━━━━
+
+git branch -d <ブランチ名>
+
+git brach -d feature
+
+※mergeしていない変更があると削除できないよ。
+
+#もう強制削除したい
+git branch -D <ブランチ名>
+
+完全に「もういらない！」ブランチができた場合に実施するようにして、それ以外の場合にはダブルチェック実施後に削除しましょう。
+
+
+━━━━━━━━━━━━━━━━━━━━
+今後もバージョンアップしていきます(2022.01.11)
+━━━━━━━━━━━━━━━━━━━━
