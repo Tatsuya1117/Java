@@ -1,3 +1,5 @@
+package bronze.Java;
+
 import java.util.Scanner;
 
 public class Main {
