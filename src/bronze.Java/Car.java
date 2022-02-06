@@ -35,10 +35,11 @@ class Car {
 		return this.weight * height;
 	}
 	public void printDate() {
+		System.out.println(" ");
 		System.out.println("車は" + this.Company() + "です。");
 		System.out.println("製造から" + this.age + "年、経過しています。");
 		System.out.println("タイヤは" + this.tire + "本あります。");
-		System.out.println("車両の重さは" + Math.round(this.TotalAmount()) + "tです");
+		System.out.println("車両の重さは" + Math.round(this.TotalAmount()) + "tです。");
 	}
 	public static void printCount() {
 		System.out.println("値段は" + Car.Price + "台です。");
