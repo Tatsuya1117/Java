@@ -21,11 +21,14 @@ class Person {
     this.middleName = middleName;
   }
 
-  // middleNameフィールドのゲッターを定義してください
   public String getMiddleName() {
     return this.middleName;
   }
 
+  // middleNameフィールドのセッターを定義してください
+  public void setMiddleName(String middleName) {
+  this.middleName = middleName;
+  }
   public String fullName() {
     if (this.middleName == null) {
       return this.firstName + " " + this.lastName;
