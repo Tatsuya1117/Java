@@ -5,9 +5,15 @@ public class Cat {
 	int age;
 	boolean hungry;
 
+	private void printMessage(String message) {
+		System.out.println(name + "> " + message);
+	}
+
 	public void eat() {
-		System.out.println(name + " > ご飯を食べるよ!おいしいにゃ-");
-		System.out.println(name + "> お腹がいっぱいになったにゃー");
+		// System.out.println(name + " > ご飯を食べるよ!おいしいにゃ-");
+		// System.out.println(name + "> お腹がいっぱいになったにゃー");
+		printMessage("ご飯を食べるよ！おいしいにゃー");
+		printMessage("お腹がいっぱいになったにゃー");
 		hungry = false;
 	}
 
@@ -16,8 +22,10 @@ public class Cat {
 	}
 	
 	public void playToy(String toy) {
-		System.out.println(name + "> " + toy + "で遊ぶよ。楽しいにゃー");
-		System.out.println(name + "> 遊んでお腹が減ったにゃー");
+		// System.out.println(name + "> " + toy + "で遊ぶよ。楽しいにゃー");
+		// System.out.println(name + "> 遊んでお腹が減ったにゃー");
+		printMessage(toy + "で遊ぶよ。楽しいにゃー");
+		printMessage("遊んでお腹が減ったにゃー");
 		hungry = true;
 	}
 	
@@ -38,8 +46,9 @@ public class Cat {
 	}
 	
 	public void introduceMyself() {
-		String n = getName();
-		int a = getAge();
-		System.out.println("名前は" + n + "です、" + a + "歳です。");
+		// String n = getName();
+		// int a = getAge();
+		// System.out.println("名前は" + n + "です、" + a + "歳です。");
+		printMessage("名前は" + getName() + "です、" + getAge() + "歳です。" );
 	}
 }
