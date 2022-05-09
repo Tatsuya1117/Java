@@ -1,18 +1,24 @@
 package example;
 
 public class Cat {
-	String name;
-	int age;
-	boolean hungry;
+	private String name;
+	private int age;
+	private boolean hungry;
+	private int boring;
+	// private int sleepiness; まだ
 
 	private void printMessage(String message) {
 		System.out.println(name + "> " + message);
 	}
 
 	public void eat() {
-		// System.out.println(name + " > ご飯を食べるよ!おいしいにゃ-");
-		// System.out.println(name + "> お腹がいっぱいになったにゃー");
 		printMessage("ご飯を食べるよ！おいしいにゃー");
+		printMessage("お腹がいっぱいになったにゃー");
+		hungry = false;
+	}
+	
+	public void eat(String food) {
+		printMessage(food + "を食べるよ！おいしいにゃー");
 		printMessage("お腹がいっぱいになったにゃー");
 		hungry = false;
 	}
@@ -21,9 +27,27 @@ public class Cat {
 		return hungry;
 	}
 	
+	// 「退屈ゲージ」を実装。気分に応じて数値とメッセージが変わる。
+	public void boring() {
+		int b = boring; 
+		for(b = 0; b < 10; b++) {
+			if(boring == 0) {
+				printMessage("気分は、" + boring + "です。" + "退屈の極みです。");
+			} else if(boring == 1) {
+				printMessage("気分は、" + boring + "です。" + "退屈の極みの1歩手前です。");
+			} else {
+				printMessage("遊んで欲しいのにゃー!");
+			}
+		}
+	}
+	
+	public void playToy() {
+		printMessage("おもちゃで遊ぶよ。楽しいにゃー");
+		printMessage("遊んでお腹が減ったにゃー");
+		hungry = true;
+	}
+	
 	public void playToy(String toy) {
-		// System.out.println(name + "> " + toy + "で遊ぶよ。楽しいにゃー");
-		// System.out.println(name + "> 遊んでお腹が減ったにゃー");
 		printMessage(toy + "で遊ぶよ。楽しいにゃー");
 		printMessage("遊んでお腹が減ったにゃー");
 		hungry = true;
